@@ -452,7 +452,19 @@ module GraphMediator
       unless method_defined_here
         module_eval do
           define_method(target) do |*args, &block|
-            super
+            # Original Code (which didn't worked with Ruby 2.1.2)
+            # super
+
+            # BoTreeConsulting Fixed Code
+            #
+            # Comments:
+            # While this method was executed with Ruby 2.1.2 in place
+            # following exception was encountered:
+            #  RuntimeError: implicit argument passing of super from method defined by define_method() is not supported. Specify all arguments explicitly.
+            # in this place.Fixed it by supplying the arguments explicitly.
+            #
+            # Author: Jignesh Gohel
+            super(*args, &block)
           end
         end
       end
