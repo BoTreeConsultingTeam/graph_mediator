@@ -3,41 +3,7 @@ require 'aasm'
 
 # Okay I lied.  This example has dingos.
 
-create_schema do |conn|
-  
-  conn.create_table(:dingo_pens, :force => true) do |t|
-    t.integer :pen_number
-    t.integer :dingos_count
-    t.integer :feed_rate
-    t.integer :biscuit_minimum
-    t.integer :biscuit_maximum
-    t.float :total_biscuits
-    t.float :total_biscuit_weight
-    t.integer :lock_version, :default => 0
-    t.timestamps
-  end
- 
-  conn.create_table(:dingos, :force => true) do |t|
-    t.belongs_to :dingo_pen
-    t.string :name
-    t.string :breed
-    t.integer :voracity
-    t.integer :belly
-    t.string :aasm_state
-    t.integer :lock_version, :default => 0
-    t.timestamps
-  end
 
-  conn.create_table(:biscuits, :force => true) do |t|
-    t.belongs_to :dingo_pen
-    t.string :type
-    t.float :weight
-    t.integer :amount
-    t.integer :lock_version, :default => 0
-    t.timestamps
-  end
-
-end
 
 # A dingo.
 class Dingo < ActiveRecord::Base
@@ -160,6 +126,41 @@ describe "DingoPen" do
       :biscuit_minimum => 50,
       :biscuit_maximum => 100,
     }
+    create_schema do |conn|
+  
+      conn.create_table(:dingo_pens, :force => true) do |t|
+        t.integer :pen_number
+        t.integer :dingos_count
+        t.integer :feed_rate
+        t.integer :biscuit_minimum
+        t.integer :biscuit_maximum
+        t.float :total_biscuits
+        t.float :total_biscuit_weight
+        t.integer :lock_version, :default => 0
+        t.timestamps
+      end
+     
+      conn.create_table(:dingos, :force => true) do |t|
+        t.belongs_to :dingo_pen
+        t.string :name
+        t.string :breed
+        t.integer :voracity
+        t.integer :belly
+        t.string :aasm_state
+        t.integer :lock_version, :default => 0
+        t.timestamps
+      end
+
+      conn.create_table(:biscuits, :force => true) do |t|
+        t.belongs_to :dingo_pen
+        t.string :type
+        t.float :weight
+        t.integer :amount
+        t.integer :lock_version, :default => 0
+        t.timestamps
+      end
+
+    end
   end
 
   it "should initialize" do
